@@ -1,0 +1,114 @@
+<!--<ion-header class="ion-no-border">
+  <ion-back-button defaulthref="login" text=""></ion-back-button>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-no-margin">
+    <ion-img src="assets/images/header1.png"></ion-img>
+  </ion-card>
+
+  <ion-card-content>
+    <form [formGroup]="validationFormUser" (ngSubmit)="LoginUser(validationFormUser.value)">
+      <div class="wrapform">
+        <ion-item color="E1EAF9">
+          <ion-input type="text" name="email" formControlName="email" placeholder="Email" required></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationUserMessage.email">
+            <div class="error_message" *ngIf="validationFormUser.get('email')?.hasError(validation.type) && validationFormUser.get('email')?.dirty && validationFormUser.get('email')?.touched">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item color="E1EAF9">
+          <ion-input type="password" name="password" formControlName="password" placeholder="Senha" required></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationUserMessage.password">
+            <div class="error_message" *ngIf="validationFormUser.get('password')?.hasError(validation.type) && validationFormUser.get('password')?.dirty && validationFormUser.get('password')?.touched">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div *ngIf="loginErrorMessage" class="error_message">
+        {{ loginErrorMessage }}
+      </div>
+
+      <div class="password-forgot">
+        <ion-button fill="clear" class="ion-no-padding" routerLink="/forgotpassword">Esqueci minha senha</ion-button>
+      </div>
+
+      <div class="sign-btn-wrap">
+        <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!validationFormUser.valid">Login</ion-button>
+      </div>
+    </form>
+  </ion-card-content>
+
+  <div class="ion-card-footer">
+    <span>Não possui uma conta?</span><button class="ion-no-padding" routerLink="/signup">Inscreva-se</button>
+  </div>
+</ion-content>
+-->
+
+
+<ion-header class="ion-no-border">
+  <ion-back-button defaulthref="login" text=""></ion-back-button>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-no-margin">
+    <ion-img class="half-size-img" src="/assets/images/header.svg"></ion-img> 
+  </ion-card>
+
+  <ion-card-content>
+    <form [formGroup]="validationFormUser" (ngSubmit)="LoginUser(validationFormUser.value)">
+      <div class="wrapform">
+        <ion-item  color="E1EAF9">
+          <ion-input type="text" name="email" formControlName="email" placeholder="Email" required></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationUserMessage.email">
+            <div class="error_message" *ngIf="validationFormUser.get('email')?.hasError(validation.type) && validationFormUser.get('email')?.dirty && validationFormUser.get('email')?.touched">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item  color="E1EAF9">
+          <ion-input type="password" name="password" formControlName="password" placeholder="Senha" required></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationUserMessage.password">
+            <div class="error_message" *ngIf="validationFormUser.get('password')?.hasError(validation.type) && validationFormUser.get('password')?.dirty && validationFormUser.get('password')?.touched">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Exibição da mensagem de erro -->
+      <div *ngIf="loginErrorMessage" class="error_message">
+        {{ loginErrorMessage }}
+      </div>
+
+      <div class="password-forgot">
+        <ion-button fill="clear" class="ion-no-padding" routerLink="/forgotpassword">Esqueci minha senha</ion-button>
+      </div>
+
+      <div class="sign-btn-wrap">
+        <ion-button shape="round" type="submit" fill="solid" class="sign-btn" [disabled]="!validationFormUser.valid">Login</ion-button>
+      </div>
+    </form>
+  </ion-card-content>
+
+  <div class="ion-card-footer">
+    <span>Não possui uma conta?</span><button class="ion-no-padding" routerLink="/signup">Inscreva-se</button>
+  </div>
+</ion-content>
