@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="overlay">
+      <ion-avatar class="ion-no-margin">
+        <ion-img [src]="profileImageUrl" class="profileImage"></ion-img>
+      </ion-avatar>
+    </div>
+  </div>
+  <ion-card>
+    <div class="alterarImagem">
+      <ion-button fill="clear" class="ion-no-padding" (click)="irAlterarImagem()">Alterar imagem</ion-button>
+    </div>
+    <ion-card-header class="ion-no-padding">
+      <ion-card-title>
+        {{profileName}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="mail"></ion-icon>
+        <ion-label>{{profileEmail}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="call"></ion-icon>
+        <ion-label>{{userPhone}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="briefcase"></ion-icon>
+        <ion-label>{{userProf}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+    <ion-button (click)="exportCSV()">Exportar Dados</ion-button>
+    <div class="alterarImagem">
+      <ion-button fill="clear" class="ion-no-padding" (click)="logout()">Sair da conta</ion-button>
+    </div>
+  </ion-card>
+</ion-content>

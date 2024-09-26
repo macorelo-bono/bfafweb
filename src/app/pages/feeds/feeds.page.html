@@ -1,0 +1,651 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="title">
+    Formulário de pesquisa
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit) ="submitFormUser($event)">
+  <ion-card class="ion-no-margin">
+    <ion-item color="E1EAF9">
+      <ion-input type="text" name="nomePaciente" formControlName="pacienteName" placeholder="Nome do paciente" required></ion-input>
+    </ion-item>
+    <ion-item color="E1EAF9">
+      <ion-input type="text" name="doencaPaciente" formControlName="pacienteDoenca" placeholder="Doença do paciente" required></ion-input>
+    </ion-item>
+    <ion-item color="E1EAF9">
+      <ion-input type="text" name="medicamentoPaciente" formControlName="pacienteMedicamento" placeholder="Medicamento" required></ion-input>
+    </ion-item>
+  </ion-card>
+
+
+  <div class="divModal">
+    <ion-button id="open-modal" expand="block">Orientações</ion-button>
+  </div>
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-content class="ion-no-padding">
+          <div class="orientacoes">
+            <h6>O objetivo desse questionário é identificar a presença de barreiras e facilitadores para a persistência na farmacoterapia em condições crônicas de saúde e, com isso, nortear as intervenções dos profissionais de saúde para promover a adesão à farmacoterapia. Esse questionário é destinado para a aplicação em pessoas com doenças crônicas que utilizam farmacoterapia há 3 meses ou mais.
+
+            <hr>*Instruções:*
+            
+            O questionário deve ser aplicado pelo profissional de saúde que está atendendo o paciente; sempre que solicitado, realizar a pergunta utilizando o nome de cada medicamento que o paciente utiliza e/ou doença crônica diagnosticada, ou seja, se o paciente utilizar mais de um medicamento o item correspondente deve ser perguntado para cada medicamento, e o escore final será calculado por medicamento; e ainda, se o paciente possui mais de uma doença crônica diagnosticada, o item correspondente deve ser perguntado para cada doença crônica e o escore final será calculado por cada doença crônica.<hr> 
+            Antes de iniciar a aplicação do questionário é necessário coletar os seguintes dados do paciente: as condições crônicas de saúde diagnosticadas e os medicamentos prescritos para tais condições.          
+            </h6>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()" class="buttonVoltar" color="primary">Voltar</ion-button>
+            </ion-buttons>
+          </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-list class="radioList">
+    <!--<ion-radio-group formControlName="questao1" (ionChange)="atualizarPontuacao('questao1', questao1)" (ionChange)="atualizarQuestao('questao1', $event.detail.value)">-->
+    <ion-radio-group formControlName="questao1" (ionChange)="handleIonChange('questao1', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">1 - Paciente Desempregado (Preenchido somente pelo profissional de saúde)</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="empregoSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim, mas possui fonte de renda fixa ou variável
+        <ion-radio value="empregoRecebe" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim e não possui fonte de renda fixa ou variável
+        <ion-radio value="empregoNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao2" (ionChange)="handleIonChange('questao2', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">2- Paciente possui diagnóstico de depressão no prontuário de saúde? (Preenchido pelo profissional de saúde)</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="depresNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não há acesso à essa informação
+        <ion-radio value="depresInfo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="depresSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+    
+  <div class="text-tag">
+    <span>*Profissional de saúde:*
+
+      Leia para o paciente os itens abaixo na íntegra, ou seja, leia todas as alternativas e depois marque a alternativa escolhida pelo paciente.</span>
+  </div>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao3" (ionChange)="handleIonChange('questao3', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">3- Por qual motivo você utiliza o medicamento (dizer o nome do medicamento)?<hr>Resposta Aberta</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Assinale aqui se a resposta estiver correta
+        <ion-radio value="motivoMedicSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Assinale aqui se a resposta estiver incorreta ou o paciente alegar que não sabe
+        <ion-radio value="motivoMedicNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao4" (ionChange)="handleIonChange('questao4', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">4- Você convive com pessoas em seu ambiente familiar que te incentivam a utilizar o (s) seu (s) medicamento (s)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não, eu moro sozinho.
+        <ion-radio value="incentivoNaoFam" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim, eu moro com familiares que me incentivam a utilizar o medicamento
+        <ion-radio value="incentivoFamSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não, apesar de morar com familiares eles não me incentivam a utilizar o medicamento.
+        <ion-radio value="incentivoFamNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao5" (ionChange)="handleIonChange('questao5', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">5- Você participa de alguma associação (grupos) de pessoas com doenças semelhantes à sua?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim, eu participo de associações de pessoas com doenças semelhantes à minha.
+        <ion-radio value="assocSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não participo de associações de pessoas com doenças semelhantes de pessoas com doenças semelhantes à minha.
+        <ion-radio value="assocNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao6" (ionChange)="handleIonChange('questao6', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">6- Nos últimos sete dias você passou por algum problema que te causou tristeza ou desanimo?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="tristSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="tristNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao7" (ionChange)="handleIonChange('questao7', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">7- Por favor, me fale quantos anos você estudou (Anotar a quantidade de anos).</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        <ion-input formControlName="questao7idade" inputmode="numeric" pattern="\d{2}" style="border: 1px solid #ccc; padding: 5px; max-width: 40px;" (ionChange)="formataNumero($event)" ></ion-input>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">Me diga se você sabe ler e escrever:</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="LerSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="LerNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao8" (ionChange)="handleIonChange('questao8', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">8- Qual a sua idade? (Anotar a idade - Os itens abaixo devem ser preenchidos pelo profissional de saúde)</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        <ion-input formControlName="questao8idade" inputmode="numeric" pattern="\d{2}" style="border: 1px solid #ccc; padding: 5px; max-width: 40px;" (ionChange)="formataNumeroIdade($event)" ></ion-input>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Paciente com idade inferior a 60 anos.
+        <ion-radio value="idadeL60" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Paciente com idade igual ou superior a 60 anos.
+        <ion-radio value="idadeO60" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao9" (ionChange)="handleIonChange('questao9', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">9- Você tem alguma complicação ou problema de saúde causado pela sua doença (dizer o nome de cada doença crônica que o paciente possui diagnóstico)</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="compSaudeSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="compSaudeNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não sei
+        <ion-radio value="compSaudeTalvez" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao10" (ionChange)="handleIonChange('questao10', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">10- Você é cuidador de um familiar que tenha alguma doença crônica (doença há mais de 3 meses)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="cuidadorSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="cuidadorNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao11" (ionChange)="handleIonChange('questao11', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">11- Considerando os últimos 7 dias, você esqueceu de tomar alguma dose do medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Quase todos os dias eu esqueço de tomar a dose desse medicamento.
+        <ion-radio value="esquecerDoseMuito" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Esqueci alguns dias de tomar a dose desse medicamento.
+        <ion-radio value="esquecerDosePouco" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Esqueci apenas um dia de tomar a dose desse medicamento.
+        <ion-radio value="esquecerDoseUm" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        É bem difícil esquecer de tomar esse medicamento.
+        <ion-radio value="esquecerDoseRaro" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu nunca esqueço de tomar esse medicamento.
+        <ion-radio value="esquecerDoseNunca" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao12" (ionChange)="handleIonChange('questao12', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">12- Você tem conhecimento sobre a gravidade do (a) (dizer o nome da doença)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não tenho conhecimento
+        <ion-radio value="conhecNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Nunca me preocupei com isso
+        <ion-radio value="conhecZero" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Tenho conhecimento
+        <ion-radio value="conhecSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao13" (ionChange)="handleIonChange('questao13', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">13- Nos últimos 7 dias, você se sentiu interessado em cuidar do (a) (dizer o nome da doença)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não tive interesse
+        <ion-radio value="cuidarNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Nunca me preocupei com isso
+        <ion-radio value="cuidarNunca" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Tive interesse
+        <ion-radio value="cuidarSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao14" (ionChange)="handleIonChange('questao14', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">14- Como tem sido a sua aceitação com relação a (dizer o nome da doença)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Para mim é difícil aceitar essa condição de saúde
+        <ion-radio value="aceitacNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não sei que tenho essa condição de saúde
+        <ion-radio value="aceitacLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu aceito ter essa condição de saúde
+        <ion-radio value="aceitacSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao15" (ionChange)="handleIonChange('questao15', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">15- Em situações em que você sai da rotina, como por exemplo: ir a uma festa ou viajar, você costuma utilizar o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu costumo utilizar esse medicamento, quando saio da minha rotina
+        <ion-radio value="rotinaSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não lembro se costumo utilizar esse medicamento quando saio da minha rotina
+        <ion-radio value="rotinaLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não costumo utilizar esse medicamento quando saio da minha rotina
+        <ion-radio value="rotinaNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao16" (ionChange)="handleIonChange('questao16', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">16- Quando você se sente melhor, você costuma parar de utilizar o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu costumo parar de utilizar esse medicamento quando me sinto melhor
+        <ion-radio value="melhoraPara" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não lembro se costumo parar de utilizar esse medicamento quando me sinto melhor
+        <ion-radio value="melhoraLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não costumo parar de utilizar esse medicamento quando me sinto melhor
+        <ion-radio value="melhoraToma" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao17" (ionChange)="handleIonChange('questao17', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">17- Você precisou comprar o medicamento (dizer o nome do medicamento) nos últimos 30 dias?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não recebi esse medicamento gratuitamente nos últimos 30 dias e precisei comprar
+        <ion-radio value="receberNaoComprarSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu recebi esse medicamento gratuitamente nos últimos 30 dias e não precisei comprar
+        <ion-radio value="receberSimComprarNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu recebi esse medicamento gratuitamente e também precisei de comprar nos últimos 30 dias
+        <ion-radio value="receberSimComprarSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não recebi gratuitamente e não comprei o medicamento nos último 30 dias
+        <ion-radio value="receberNaoComprarNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao18" (ionChange)="handleIonChange('questao18', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">18- Você considera alto o custo com o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="custoAltoSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não sei
+        <ion-radio value="custoAltoLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="custoAltoNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao19" (ionChange)="handleIonChange('questao19', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">19- Qual a sua opinião em relação a quantidade de medicamentos que você toma?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu acho que utilizo muitos medicamentos
+        <ion-radio value="quantAlta" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu acho que utilizo quantidade suficiente de medicamentos
+        <ion-radio value="quantBoa" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu acho que utilizo poucos medicamentos
+        <ion-radio value="quantBaixa" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao20" (ionChange)="handleIonChange('questao20', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">20- Você tem dificuldade ou desconforto ao tomar ou aplicar o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não tenho dificuldades ou desconforto em tomar ou aplicar esse medicamento
+        <ion-radio value="dificNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu tenho dificuldades ou desconforto em tomar ou aplicar esse medicamento
+        <ion-radio value="dificSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao21" (ionChange)="handleIonChange('questao21', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">21- O que você acha que o medicamento (dizer o nome do medicamento) faz para a sua saúde?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Utilizar esse medicamento me faz bem
+        <ion-radio value="colatNao" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Utilizar esse medicamento não me faz bem nem me faz mal
+        <ion-radio value="colatNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Utilizar esse medicamento me faz mal
+        <ion-radio value="colatSim" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao22" (ionChange)="handleIonChange('questao22', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">22- Você considera importante utilizar o medicamento (dizer o nome do medicamento) para controlar o seu problema de saúde?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu acho que utilizar esse medicamento é importante para controlar o meu problema de saúde
+        <ion-radio value="importSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Prefiro não opinar
+        <ion-radio value="importNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu acho que esse medicamento não é importante para controlar o meu problema de saúde
+        <ion-radio value="importNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao23" (ionChange)="handleIonChange('questao23', $event.detail.value)" >
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">23- Nos últimos 7 dias você deixou de utilizar o medicamento (dizer o nome do medicamento) por que te fez mal?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="abandSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não lembro
+        <ion-radio value="abandNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="abandNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao24" (ionChange)="handleIonChange('questao24', $event.detail.value)"d>
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">24- Utilizar o medicamento (dizer o nome do medicamento) atrapalha as suas atividades do dia a dia ou na sua rotina?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="atrapSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="atrapNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao25" (ionChange)="handleIonChange('questao25', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">25- Você esteve de acordo com o seu médico quando ele te receitou o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Concordei com a prescrição desse medicamento
+        <ion-radio value="acordoSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não fui esclarecido pelo médico sobre o uso desse medicamento
+        <ion-radio value="acordoLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não concordei com a prescrição desse medicamento
+        <ion-radio value="acordoNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao26" (ionChange)="handleIonChange('questao26', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">26- Você está satisfeito com o atendimento recebido pelo profissional de saúde que te receitou esse medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu estou satisfeito
+        <ion-radio value="satisfSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Prefiro não opinar
+        <ion-radio value="satisfNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não estou satisfeito
+        <ion-radio value="satisfNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao27" (ionChange)="handleIonChange('questao27', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">27- Você considera que recebeu todas as informações necessárias sobre o medicamento (dizer o nome do medicamento) pelo profissional de saúde que te prescreveu esse medicamento?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="infoSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não sei
+        <ion-radio value="infoLeigo" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="infoNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao28" (ionChange)="handleIonChange('questao28', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">28- Você confia no profissional de saúde que te receitou o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu confio no profissional de saúde que me receitou esse medicamento
+        <ion-radio value="confiaSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Prefiro não opinar
+        <ion-radio value="confiaNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu não confio no profissional de saúde que me prescreveu esse medicamento
+        <ion-radio value="confiaNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao29" (ionChange)="handleIonChange('questao29', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">29- O profissional de saúde que te receitou o medicamento (dizer o nome do medicamento) te motiva a utilizar esse medicamento de maneira positiva?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Sim
+        <ion-radio value="motivSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Prefiro não opinar
+        <ion-radio value="motivNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não
+        <ion-radio value="motivNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-list class="radioList">
+    <ion-radio-group formControlName="questao30" (ionChange)="handleIonChange('questao30', $event.detail.value)">
+      <ion-item color="E1EAF9" lines="none">
+        <ion-text style="font-weight: bold;">30- Você considera que está acostumado a utilizar o medicamento (dizer o nome do medicamento)?</ion-text>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Eu estou acostumado (a) a utilizar esse medicamento
+        <ion-radio value="acostSim" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Prefiro não opinar
+        <ion-radio value="acostNada" slot="start"></ion-radio>
+      </ion-item>
+      <ion-item color="E1EAF9" lines="none">
+        Não estou acostumado (a) a utilizar esse medicamento
+        <ion-radio value="acostNao" slot="start"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-content>Soma total: {{ calcularPontuacaoTotal() }}</ion-card-content><hr>
+    <ion-card-content class="bfFinais">Os fatores em verde são facilitadores e em vermelho são barreiras:</ion-card-content>
+    <div *ngFor="let texto of textosExtras.values()" [ngClass]="texto.color" class="textoExtra">{{ texto.text }}</div>
+  </ion-card>
+
+  <div class="buttonWrap">
+    <ion-button shape="round" (click)="limparSelecoes()" fill="solid" class="sign-btn">Limpar</ion-button>
+    <ion-button shape="round" type="submit" fill="solid" class="sign-btn">Salvar</ion-button>
+  </div>
+  </form>
+</ion-content>

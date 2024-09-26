@@ -1,0 +1,97 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaulthref="login" text="">
+
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-color">
+  <ion-card class="ion-no-margin">
+
+    <ion-card-header>
+      <ion-card-title>
+        Inscreva-se
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-subtitle> <!-- ERA PRA ESTAR DENTRO DO header -->
+      Crie sua conta preenchendo o formulário
+    </ion-card-subtitle>
+
+    <form [formGroup]="validationFormUser" (ngSubmit) ="registerUser(validationFormUser.value)">
+      <ion-card-content>
+        <ion-item color="#E1EAF9">
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-input name="namesName" type="text" placeholder="Nome completo" formControlName="names">
+          </ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationMessages.names">
+              <div class="error_message" *ngIf="validationFormUser.get('names')?.hasError(validation.type) && (validationFormUser.get('names')?.dirty && validationFormUser.get('names')?.touched)">
+                {{validation.message}}
+              </div>
+          </ng-container>
+        </div>
+        <ion-item color="#E1EAF9">
+          <ion-icon name="call-outline"></ion-icon>
+          <ion-input name="phoneName" type="text" placeholder="(11)11111-1111" formControlName="phone">
+          </ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationMessages.phone">
+              <div class="error_message" *ngIf="validationFormUser.get('phone')?.hasError(validation.type) && (validationFormUser.get('phone')?.dirty && validationFormUser.get('phone')?.touched)">
+                {{validation.message}}
+              </div>
+          </ng-container>
+        </div>
+        <ion-item color="#E1EAF9">
+          <ion-icon name="mail-outline"></ion-icon>
+          <ion-input name="emailName" type="text" placeholder="Email" formControlName="email">
+          </ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationMessages.email">
+              <div class="error_message" *ngIf="validationFormUser.get('email')?.hasError(validation.type) && (validationFormUser.get('email')?.dirty && validationFormUser.get('email')?.touched)">
+                {{validation.message}}
+              </div>
+          </ng-container>
+        </div>
+        <ion-item color="#E1EAF9">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <ion-input name="passwordName" type="password" placeholder="Senha" formControlName="password">
+          </ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationMessages.password">
+              <div class="error_message" *ngIf="validationFormUser.get('password')?.hasError(validation.type) && (validationFormUser.get('password')?.dirty && validationFormUser.get('password')?.touched)">
+                {{validation.message}}
+              </div>
+          </ng-container>
+        </div>
+        <ion-item color="#E1EAF9">
+          <ion-icon name="briefcase-outline"></ion-icon>
+          <ion-input name="profName" type="text" placeholder="Profissão" formControlName="prof">
+          </ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of validationMessages.prof">
+              <div class="error_message" *ngIf="validationFormUser.get('prof')?.hasError(validation.type) && (validationFormUser.get('prof')?.dirty && validationFormUser.get('prof')?.touched)">
+                {{validation.message}}
+              </div>
+          </ng-container>
+        </div>
+
+        <div class="sign-btn-wrap">
+          <ion-button type="submit" hape="round" fill="solid" class="sign-btn" [disabled]="!validationFormUser.valid">Inscrever-se</ion-button>
+        </div>
+
+      </ion-card-content>
+    </form>
+
+  </ion-card>
+
+</ion-content>
